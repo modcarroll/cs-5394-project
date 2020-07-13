@@ -1,0 +1,17 @@
+Non Functional Requirements
+
+
+1. Reliability:
+The application shall be able to turn off or turn on connected lights and tvs 95% of the time.
+The application shall be able to lock or unlock connected doors 95% of the time.
+The application shall be able to turn up or turn down connect thermostats and speakers 95 % of the time.
+
+2. Robustness:
+In the case of error occurance proper error messages will be displayed on the application screen
+
+3. Maintainability
+Application updates shall take no longer than 30 minutes to download
+No more than two updates per month will be pushed to the application
+
+4. Security
+The application shall store user interactions in a database
