@@ -2,4 +2,4 @@
 
 `python3 main.py` to run.
 
-Reminder: add sequences (come home -> turn on all lights, close garage door, etc.)
+This is just a simple button example application.
