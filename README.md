@@ -2,4 +2,7 @@
 
 `python3 main.py` to run.
 
+- Python3
+- MongoDB
+
 This is just a simple button example application.
