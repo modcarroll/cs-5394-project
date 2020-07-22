@@ -10,9 +10,9 @@ Login to the mongo shell: `mongo`
 
 Show database: `show dbs`
 
-Switch to test database: `use test` (Note: you should see 
+Switch to test database: `use test` (Note: you should see a few different databases, just use test)
 
-Show collections: `show collections`
+Show collections: `show collections` (I see one collection here: testCollection)
 
 Insert data: `db.testCollection.insertOne( {
 user: "morgan",
@@ -20,6 +20,13 @@ object: "bulb",
 action: "turn-on",
 timestamp: "20200722152128"
 } );`
+
+^ `db` is the current database I have selected (test), `testCollection` is the collection name, and `insertOne()` is the method. The object that I want to insert is `{
+user: "morgan",
+object: "bulb",
+action: "turn-on",
+timestamp: "20200722152128"
+}`
 
 You should get a response that says something along the lines of:
 `{
