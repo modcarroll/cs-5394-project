@@ -2,7 +2,9 @@ Install mongodb: [https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os
 
 Using mongo shell: [https://docs.mongodb.com/manual/mongo/#start-the-mongo-shell-and-connect-to-mongodb](https://docs.mongodb.com/manual/mongo/#start-the-mongo-shell-and-connect-to-mongodb)
 
-Pymongo is what we will use for our app: [https://pymongo.readthedocs.io/en/stable/](https://pymongo.readthedocs.io/en/stable/)
+Pymongo is the package that we will use for our app to communciate with Mongo: [https://pymongo.readthedocs.io/en/stable/](https://pymongo.readthedocs.io/en/stable/)
+
+Download the GUI for MongoDB here: [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
 
 Run server: `brew services start/stop mongodb-community@4.2`
 
