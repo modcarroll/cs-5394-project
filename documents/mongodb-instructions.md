@@ -1,3 +1,23 @@
+### Data Format
+
+Example:
+```
+{
+   user: "morgan",
+   object: "bulb",
+   action: "turn-on",
+   timestamp: "2020-07-22 21:09:14.288068"
+}
+```
+
+Options for object key: ["lightbulb", "doorlock", "thermostat", "speaker"]
+
+Options for action key: ["turn-on", "turn-off", "lock", "unlock", "turn-up", "turn-down"]
+
+Note: We will not build anything in to enforce the integrity of these keys (unless we have time), so just make sure you follow this structure.
+
+### Prerequisites
+
 Install mongodb: [https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/](https://docs.mongodb.com/manual/mongo/#start-the-mongo-shell-and-connect-to-mongodb)
 
 Using mongo shell: [https://docs.mongodb.com/manual/mongo/#start-the-mongo-shell-and-connect-to-mongodb](https://docs.mongodb.com/manual/mongo/#start-the-mongo-shell-and-connect-to-mongodb)
@@ -6,6 +26,7 @@ Pymongo is the package that we will use for our app to communciate with Mongo: [
 
 Download the GUI for MongoDB here: [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
 
+### Run MongoDB
 Run server: `brew services start/stop mongodb-community@4.2`
 
 Login to the mongo shell: `mongo`
