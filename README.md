@@ -5,4 +5,4 @@
 - Python3
 - MongoDB
 
-This is just a simple button example application.
+This is just a simple example application.
