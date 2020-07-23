@@ -1,8 +1,8 @@
-# CS 5394 Project
+CS 5394 Project
 
 `python3 main.py` to run.
 
 - Python3
 - MongoDB
 
-This is just a simple button example application.
+This is just a simple example application.
