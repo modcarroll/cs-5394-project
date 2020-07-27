@@ -13,6 +13,8 @@ frame_thermostat = tk.Frame(width="500", height="50")
 frame_speaker = tk.Frame(width="500", height="50")
 frame_status = tk.Frame(width="500", height="50")
 
+# This is Morgan's test comment
+
 frame_title.pack()
 separator = Frame(height=2, bd=1, relief=SUNKEN)
 separator.pack(fill=X, padx=5, pady=5)
