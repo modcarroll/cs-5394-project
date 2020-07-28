@@ -4,7 +4,7 @@ Example:
 ```
 {
    user: "morgan",
-   object: "bulb",
+   device: "bulb",
    action: "turn-on",
    timestamp: "2020-07-22 21:09:14.288068"
 }
