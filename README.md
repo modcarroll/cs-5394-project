@@ -8,7 +8,7 @@ The API will have the following endpoints:
 
 ---
 
-POST /logs
+POST `https://pycontrolapi.us-south.cf.appdomain.cloud/logs`
 
 /* Post an object to the logs collection */
 
@@ -17,7 +17,7 @@ Example input:
 {"user": "morgan", "device": "lightbulb","action":"turn-on"}
 
 ---
-POST /deviceon/:id
+POST `https://pycontrolapi.us-south.cf.appdomain.cloud/deviceon/:id`
 
 /* Turn on a device by id where :id is the id of the device ("lightbulb", "doorlock", etc.) */
 
@@ -26,7 +26,7 @@ Example input:
 {"deviceId":"lightbulb"}
 
 ---
-POST /deviceoff/:id
+POST `https://pycontrolapi.us-south.cf.appdomain.cloud/deviceoff/:id`
 
 /* Turn off a device by id where :id is the id of the device ("lightbulb", "doorlock", etc.) */
 
@@ -35,21 +35,21 @@ Example input:
 {"deviceId":"lightbulb"}
 
 ---
-GET /devicestatus/:id
+GET `https://pycontrolapi.us-south.cf.appdomain.cloud/devicestatus/:id`
 
 /* Get the status of a device */
 
 No input
 
 ---
-GET /user/:id
+GET `https://pycontrolapi.us-south.cf.appdomain.cloud/user/:id`
 
 /* Get user information for a specific user where :id is the username */
 
 No input
 
 ---
-GET /allusers
+GET `https://pycontrolapi.us-south.cf.appdomain.cloud/allusers`
 
 /* Get a list of all users */
 
