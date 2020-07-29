@@ -2,7 +2,9 @@
 
 `python3 main.py` to run.
 
-## API
+## API - [https://pycontrolapi.us-south.cf.appdomain.cloud/]( https://pycontrolapi.us-south.cf.appdomain.cloud/)
+
+### View the API docs here: [https://pycontrolapi.us-south.cf.appdomain.cloud/api-docs]( https://pycontrolapi.us-south.cf.appdomain.cloud/api-docs)
 
 Prerequisites:
 - [Node.js](https://nodejs.org/en/download/)
