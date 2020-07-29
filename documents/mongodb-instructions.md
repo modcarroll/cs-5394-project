@@ -31,6 +31,8 @@ Download the TLS Certificate (it is in the root directory of this repo)
 Run `mongo -u $USERNAME -p $PASSWORD --ssl --sslCAFile 317d706c-6a8e-4ad4-89ef-7656d2ce97e8 --authenticationDatabase admin --host replset/08951464-2902-477e-862b-97095ae4d133-0.brjdfmfw09op3teml03g.databases.appdomain.cloud:32142,08951464-2902-477e-862b-97095ae4d133-1.brjdfmfw09op3teml03g.databases.appdomain.cloud:32142`
 but replace `$USERNAME` with your username (your first name) and `$PASSWORD` with your password.
 
+Mongo connection URI: `mongodb://admin:nAJENwqPxbC@08951464-2902-477e-862b-97095ae4d133-0.brjdfmfw09op3teml03g.databases.appdomain.cloud:32142?authSource=admin&replicaSet=replset&tls=true&readPreference=secondary`
+
 ### Run MongoDB Locally
 Run server: `brew services start/stop mongodb-community@4.2`
 
