@@ -2,55 +2,15 @@
 
 `python3 main.py` to run.
 
-### API
+## API - [https://pycontrolapi.us-south.cf.appdomain.cloud/]( https://pycontrolapi.us-south.cf.appdomain.cloud/)
 
-The API will have the following endpoints:
+### View the API docs here: [https://pycontrolapi.us-south.cf.appdomain.cloud/api-docs]( https://pycontrolapi.us-south.cf.appdomain.cloud/api-docs)
 
----
+Prerequisites:
+- [Node.js](https://nodejs.org/en/download/)
 
-POST `https://pycontrolapi.us-south.cf.appdomain.cloud/logs`
-
-/* Post an object to the logs collection */
-
-Example input:
-
-{"user": "morgan", "device": "lightbulb","action":"turn-on"}
-
----
-POST `https://pycontrolapi.us-south.cf.appdomain.cloud/deviceon/:id`
-
-/* Turn on a device by id where :id is the id of the device ("lightbulb", "doorlock", etc.) */
-
-Example input:
-
-{"deviceId":"lightbulb"}
-
----
-POST `https://pycontrolapi.us-south.cf.appdomain.cloud/deviceoff/:id`
-
-/* Turn off a device by id where :id is the id of the device ("lightbulb", "doorlock", etc.) */
-
-Example input:
-
-{"deviceId":"lightbulb"}
-
----
-GET `https://pycontrolapi.us-south.cf.appdomain.cloud/devicestatus/:id`
-
-/* Get the status of a device */
-
-No input
-
----
-GET `https://pycontrolapi.us-south.cf.appdomain.cloud/user/:id`
-
-/* Get user information for a specific user where :id is the username */
-
-No input
-
----
-GET `https://pycontrolapi.us-south.cf.appdomain.cloud/allusers`
-
-/* Get a list of all users */
-
-No input
+To run the API locally:
+- Navigate to the API folder to run
+- `npm install`
+- `node server.js`
+- Your API will be running at [localhost:3000](localhost:3000)
