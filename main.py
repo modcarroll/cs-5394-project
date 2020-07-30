@@ -1,16 +1,60 @@
 import tkinter as tk
 from tkinter import *
 import requests
+import json
 
 # example of how to do a post request
 url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-response = requests.post(url + "/volup/speaker")
-print(response.content)
+allUsers = ['LOGIN']
+currentUser = ""
 
+# response = requests.post(url + "/volup/speaker")
+# print(response.content)
+#
 # example of how to do a get request
-url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-response = requests.get(url + "/alllogs")
-print(response.content)
+# url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+# response = requests.get(url + "/alllogs")
+# print(response.content)
+
+# Get the current user based on who is selected in the dropdown
+def _getUser(cur):
+    currentUser = cur
+    print(currentUser)
+
+def _homeSequence():
+    print("Home sweet home")
+    # Set the temperature to 72
+    # Turn lights on
+    # Unlock the doors
+    # Turn the speakers on
+
+def _awaySequence():
+    print("Bye Felicia")
+    # Set the temperature to 78
+    # Turn the lights off
+    # Lock the doors
+    # Turn the speakers off
+
+def _sleepSequence():
+    print("Snoozle time zzzzzzz")
+    # Set the temperature to 68
+    # Turn the lights off
+    # Lock the doors
+    # Turn the speakers off
+
+def _burglarSequence():
+    print("Intruder alert!")
+    # Set the temperature to 99
+    # Turn the lights on
+    # Lock the doors
+    # Turn the speakers on
+    # Set the speaker volume to 100
+
+def _populateUsers():
+    userResponse = requests.get(url + "/allusers")
+    users = json.loads(userResponse.content)
+    for user in users:
+        allUsers.append(user['userId'])
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -18,6 +62,7 @@ class Window(Frame):
         self.master = master
 
         # Setup frames
+        frame_login = tk.Frame(width="500", height="50")
         frame_title = tk.Frame(width="500", height="50")
         frame_tab = tk.Frame(width="500", height="30")
         frame_sequence = tk.Frame(width="500", height="50")
@@ -26,6 +71,7 @@ class Window(Frame):
         frame_thermostat = tk.Frame(width="500", height="50")
         frame_speaker = tk.Frame(width="500", height="50")
         frame_status = tk.Frame(width="500", height="50")
+        frame_login.pack(side="top", fill="x")
 
         # Add separators to frames
         frame_title.pack()
@@ -58,6 +104,13 @@ class Window(Frame):
 
         frame_status.pack(side="top")
 
+        _populateUsers()
+        # Create and populate login dropdown
+        variable = StringVar(master)
+        variable.set(allUsers[0]) # set the default value
+        user_dropdown = tk.OptionMenu(frame_login, variable, command = _getUser, *allUsers)
+        user_dropdown.pack(side="right")
+
         # Add logo to the top of the page
         photo = PhotoImage(file="icon.gif")
         label_title = Label(frame_title, image=photo)
@@ -74,7 +127,6 @@ class Window(Frame):
             fg="black",
             master=frame_tab
         )
-
         tab_logs = tk.Button(
             text="Logs",
             width=6,
@@ -87,8 +139,46 @@ class Window(Frame):
         tab_control.pack(side="left")
         tab_logs.pack(side="left")
 
+        # Sequence section
         label_sequence = Label(frame_sequence, text="Sequences", width=12)
         label_sequence.pack(side="left")
+        sequence_1 = tk.Button(
+            text="Home",
+            width=5,
+            height=2,
+            bg="white",
+            fg="black",
+            command=_homeSequence,
+            master=frame_sequence
+        )
+        sequence_2 = tk.Button(
+            text="Away",
+            width=5,
+            height=2,
+            bg="white",
+            fg="black",
+            master=frame_sequence
+        )
+        sequence_3 = tk.Button(
+            text="Sleep",
+            width=5,
+            height=2,
+            bg="white",
+            fg="black",
+            master=frame_sequence
+        )
+        sequence_4 = tk.Button(
+            text="Burglar",
+            width=5,
+            height=2,
+            bg="white",
+            fg="black",
+            master=frame_sequence
+        )
+        sequence_1.pack(side="left")
+        sequence_2.pack(side="left")
+        sequence_3.pack(side="left")
+        sequence_4.pack(side="left")
 
         # Light section
         label_light = Label(frame_light, text="Lights", width=12)
@@ -100,7 +190,6 @@ class Window(Frame):
             fg="black",
             master=frame_light
         )
-
         light_off = tk.Button(
             text="OFF",
             width=8,
@@ -123,7 +212,6 @@ class Window(Frame):
             fg="black",
             master=frame_lock
         )
-
         unlock = tk.Button(
             text="UNLOCK",
             width=8,
@@ -146,7 +234,6 @@ class Window(Frame):
             fg="black",
             master=frame_thermostat
         )
-
         therm_down = tk.Button(
             text="-",
             width=8,
@@ -169,7 +256,6 @@ class Window(Frame):
             fg="black",
             master=frame_speaker
         )
-
         speaker_down = tk.Button(
             text="-",
             width=8,
@@ -185,10 +271,12 @@ class Window(Frame):
         # Output section
         output = tk.Text(frame_status)
         output.pack()
-        output.insert(tk.END, response.content)
+        # use this to add data to the output screen where "Test data here" is the data that you want to display
+        output.insert(tk.END, "Test data here")
 
 # Create the window
 window = tk.Tk()
+window.title("Smart PyControl")
 app = Window(window)
 window.minsize(500, 800)
 window.mainloop()
