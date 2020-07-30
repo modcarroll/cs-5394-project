@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 var moment = require('moment');
 const MongoClient = require("mongodb").MongoClient;
-const CONNECTION_URL = "mongodb://....."; // paste your MongoDB URI here
+const CONNECTION_URL = "mongodb://someurihere"; // paste your MongoDB URI here
 const DATABASE_NAME = 'prod';
 const app = express();
 
@@ -60,153 +60,153 @@ router.get('/', function(req, res) {
  * @returns {object} 200 - {"message": "Success!"}
  * @returns {Error}  default - Unexpected error
  */
-app.post("/logs", (req, res) => {
-  let inputObject = {
-    "user": req.body.user,
-    "device": req.body.device,
-    "action": req.body.action,
-    "timestamp": moment().format()
-  }
+ app.post("/logs", (req, res) => {
+   let inputObject = {
+     "user": req.body.user,
+     "device": req.body.device,
+     "action": req.body.action,
+     "timestamp": moment().format()
+   }
 
-  collection = database.collection("logs", {readPreference:'secondaryPreferred'});
-  collection.insertOne(inputObject, (error, result) => {
-    if (error) throw error;
-    res.send({"message": "Success!"});
-  });
-});
+   collection = database.collection("logs", {readPreference:'secondaryPreferred'});
+   collection.insertOne(inputObject, (error, result) => {
+     if (error) throw error;
+     res.send({"message": "Success!"});
+   });
+ });
 
-/**
- * Turn a device on by device ID where :id is the device ID
- * Example: `/deviceon/lightbulb`
- * @route POST /deviceon/:id
- * @group devices - Operations related to devices
- * @param {string} id.parameter.required - device ID - eg: lightbulb
- * @returns {object} 200 - {"message": "Success!"}
+ /**
+  * Turn a device on by device ID where :id is the device ID
+  * Example: `/deviceon/lightbulb`
+  * @route POST /deviceon/:id
+  * @group devices - Operations related to devices
+  * @param {string} id.parameter.required - device ID - eg: lightbulb
+  * @returns {object} 200 - {"message": "Success!"}
+  * @returns {Error}  default - Unexpected error
+  */
+ app.post("/deviceon/:id", (req, res) => {
+   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+   collection.updateOne({"deviceId": req.params.id}, {$set: {status:"on"}}, (error, result) => {
+     if (error) throw error;
+     res.send({"message": "Success!"});
+     });
+   });
+
+ /**
+  * Turn a device off by device ID where :id is the device ID
+  * Example: `/deviceoff/lightbulb`
+  * @route POST /deviceoff/:id
+  * @group devices - Operations related to devices
+  * @param {string} id.parameter.required - device ID - eg: lightbulb
+  * @returns {object} 200 - {"message": "Success!"}
+  * @returns {Error}  default - Unexpected error
+  */
+ app.post("/deviceoff/:id", (req, res) => {
+   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+   collection.updateOne({"deviceId": req.params.id}, {$set: {status:"off"}}, (error, result) => {
+       if (error) throw error;
+       res.send({"message": "Success!"});
+     });
+   });
+
+   /**
+    * Turn a device volume/temperature up by device ID where :id is the device ID
+    * Example: `/up/speaker`
+    * @route POST /up/:id
+    * @group devices - Operations related to devices
+    * @param {string} id.parameter.required - device ID - eg: speaker
+    * @returns {object} 200 - {"message": "Success!"}
+    * @returns {Error}  default - Unexpected error
+    */
+   app.post("/up/:id", (req, res) => {
+     collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+     collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: 1}}, (error, result) => {
+         if (error) throw error;
+         res.send({"message": "Success!"});
+       });
+     });
+
+ /**
+  * Turn a device volume/temperature down by device ID where :id is the device ID
+  * Example: `/down/speaker`
+  * @route POST /down/:id
+  * @group devices - Operations related to devices
+  * @param {string} id.parameter.required - device ID - eg: speaker
+  * @returns {object} 200 - {"message": "Success!"}
+  * @returns {Error}  default - Unexpected error
+  */
+ app.post("/down/:id", (req, res) => {
+   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+   collection.updateOne({"deviceId": req.params.id}, {$dec: {volume: 1}}, (error, result) => {
+       if (error) throw error;
+       res.send({"message": "Success!"});
+     });
+   });
+
+   /**
+    * Get the status for a specific device
+    * Example: `/devicestatus/speaker`
+    * @route GET /devicestatus/:id
+    * @group devices - Operations related to devices
+    * @param {string} id.parameter.required - device ID - eg: speaker
+    * @returns {object} 200 - {_id: String, deviceId: String, volume: int, status: String}
+    * @returns {Error}  default - Unexpected error
+    */
+ app.get("/devicestatus/:id", (req, res) => {
+   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+   collection.findOne({"deviceId": req.params.id}, function(err, result) {
+     if (err) throw err;
+     console.log(result);
+     res.send(result);
+   });
+ });
+
+ /**
+ * Get all logs
+ * Example: `/alllogs`
+ * @route GET /alllogs
+ * @group logs - Operations related to logs
+ * @returns {Array} 200 - [{_id: String, user: String, object: String, action: String, timestamp: String}]
  * @returns {Error}  default - Unexpected error
  */
-app.post("/deviceon/:id", (req, res) => {
-  collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-  collection.updateOne({"deviceId": req.params.id}, {$set: {status:"on"}}, (error, result) => {
-    if (error) throw error;
-    res.send({"message": "Success!"});
-    });
-  });
+ app.get("/alllogs", (req, res) => {
+ collection = database.collection("logs", {readPreference:'secondaryPreferred'});
+ collection.find({}).toArray(function(err, result) {
+   if (err) throw err;
+   console.log(result);
+   res.send(result);
+ });
+ });
 
-/**
- * Turn a device off by device ID where :id is the device ID
- * Example: `/deviceoff/lightbulb`
- * @route POST /deviceoff/:id
- * @group devices - Operations related to devices
- * @param {string} id.parameter.required - device ID - eg: lightbulb
- * @returns {object} 200 - {"message": "Success!"}
- * @returns {Error}  default - Unexpected error
- */
-app.post("/deviceoff/:id", (req, res) => {
-  collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-  collection.updateOne({"deviceId": req.params.id}, {$set: {status:"off"}}, (error, result) => {
-      if (error) throw error;
-      res.send({"message": "Success!"});
-    });
-  });
+ /**
+  * Get user information for a specific user
+  * Example: `/user/morgan`
+  * @route GET /user/:id
+  * @group users - Operations related to users
+  * @returns {object} 200 - {_id: String, userId: String, email: String}
+  * @returns {Error}  default - Unexpected error
+  */
+ app.get("/user/:id", (req, res) => {
+   collection = database.collection("users", {readPreference:'secondaryPreferred'});
+   collection.findOne({"userId": req.params.id}, function(err, result) {
+     if (err) throw err;
+     console.log(result);
+     res.send(result);
+   });
+ });
 
-  /**
-   * Turn a device volume up by device ID where :id is the device ID
-   * Example: `/volup/speaker`
-   * @route POST /volup/:id
-   * @group devices - Operations related to devices
-   * @param {string} id.parameter.required - device ID - eg: speaker
-   * @returns {object} 200 - {"message": "Success!"}
-   * @returns {Error}  default - Unexpected error
-   */
-  app.post("/volup/:id", (req, res) => {
-    collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-    collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: 1}}, (error, result) => {
-        if (error) throw error;
-        res.send({"message": "Success!"});
-      });
-    });
-
-/**
- * Turn a device volume down by device ID where :id is the device ID
- * Example: `/voldown/speaker`
- * @route POST /voldown/:id
- * @group devices - Operations related to devices
- * @param {string} id.parameter.required - device ID - eg: speaker
- * @returns {object} 200 - {"message": "Success!"}
- * @returns {Error}  default - Unexpected error
- */
-app.post("/voldown/:id", (req, res) => {
-  collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-  collection.updateOne({"deviceId": req.params.id}, {$dec: {volume: 1}}, (error, result) => {
-      if (error) throw error;
-      res.send({"message": "Success!"});
-    });
-  });
-
-  /**
-   * Get the status for a specific device
-   * Example: `/devicestatus/speaker`
-   * @route GET /devicestatus/:id
-   * @group devices - Operations related to devices
-   * @param {string} id.parameter.required - device ID - eg: speaker
-   * @returns {object} 200 - {_id: String, deviceId: String, volume: int, status: String}
-   * @returns {Error}  default - Unexpected error
-   */
-app.get("/devicestatus/:id", (req, res) => {
-  collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-  collection.findOne({"deviceId": req.params.id}, function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    res.send(result);
-  });
-});
-
-/**
-* Get all logs
-* Example: `/alllogs`
-* @route GET /alllogs
-* @group logs - Operations related to logs
-* @returns {Array} 200 - [{_id: String, user: String, object: String, action: String, timestamp: String}]
-* @returns {Error}  default - Unexpected error
-*/
-app.get("/alllogs", (req, res) => {
-collection = database.collection("logs", {readPreference:'secondaryPreferred'});
-collection.find({}).toArray(function(err, result) {
-  if (err) throw err;
-  console.log(result);
-  res.send(result);
-});
-});
-
-/**
- * Get user information for a specific user
- * Example: `/user/morgan`
- * @route GET /user/:id
- * @group users - Operations related to users
- * @returns {object} 200 - {_id: String, userId: String, email: String}
- * @returns {Error}  default - Unexpected error
- */
-app.get("/user/:id", (req, res) => {
-  collection = database.collection("users", {readPreference:'secondaryPreferred'});
-  collection.findOne({"userId": req.params.id}, function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    res.send(result);
-  });
-});
-
-/**
- * Get a list of users
- * @route GET /allusers
- * @group users - Operations related to users
- * @returns {Array} 200 - [{_id: String, userId: String, email: String}]
- * @returns {Error}  default - Unexpected error
- */
-app.get("/allusers", (req, res) => {
-  collection = database.collection("users", {readPreference:'secondaryPreferred'});
-  collection.find({}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    res.send(result);
-  });
-});
+ /**
+  * Get a list of users
+  * @route GET /allusers
+  * @group users - Operations related to users
+  * @returns {Array} 200 - [{_id: String, userId: String, email: String}]
+  * @returns {Error}  default - Unexpected error
+  */
+ app.get("/allusers", (req, res) => {
+   collection = database.collection("users", {readPreference:'secondaryPreferred'});
+   collection.find({}).toArray(function(err, result) {
+     if (err) throw err;
+     console.log(result);
+     res.send(result);
+   });
+ });
