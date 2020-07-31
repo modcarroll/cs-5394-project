@@ -5,16 +5,12 @@ import json
 
 # example of how to do a post request
 url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+# url = "http://localhost:3000"
 allUsers = ['LOGIN']
 currentUser = ""
 
-# response = requests.post(url + "/volup/speaker")
-# print(response.content)
-#
-# example of how to do a get request
-# url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-# response = requests.get(url + "/alllogs")
-# print(response.content)
+response = requests.post(url + "/setvolume", json={"volume": 6})
+print(response.content)
 
 # Get the current user based on who is selected in the dropdown
 def _getUser(cur):

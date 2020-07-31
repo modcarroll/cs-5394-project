@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 var moment = require('moment');
 const MongoClient = require("mongodb").MongoClient;
-const CONNECTION_URL = "mongodb://someurihere"; // paste your MongoDB URI here
+const CONNECTION_URL = "mongodb://admin:nAJENwqPxbC@08951464-2902-477e-862b-97095ae4d133-0.brjdfmfw09op3teml03g.databases.appdomain.cloud:32142?authSource=admin&replicaSet=replset&tls=true&readPreference=secondary"; // paste your MongoDB URI here
 const DATABASE_NAME = 'prod';
 const app = express();
 
@@ -72,6 +72,40 @@ router.get('/', function(req, res) {
    collection.insertOne(inputObject, (error, result) => {
      if (error) throw error;
      res.send({"message": "Success!"});
+   });
+ });
+
+ /**
+  * Set the thermostat to a specific temperature
+  * Example: `/settemp`
+  * @route POST /settemp
+  * @group devices - Operations related to devices
+  * @param {int} temperature.parameter.required - temperature, e.g. 74
+  * @returns {object} 200 - {"message": "Success!"}
+  * @returns {Error}  default - Unexpected error
+  */
+ app.post("/settemp", (req, res) => {
+   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+   collection.updateOne({"deviceId": "thermostat"}, {$set: {temperature: req.body.temperature}}, (error, result) => {
+     if (error) throw error;
+     res.send({"message": "Success!"});
+     });
+   });
+
+/**
+* Set the volume to a specific value
+* Example: `/setvolume`
+* @route POST /setvolume
+* @group devices - Operations related to devices
+* @param {integer} volume.parameter.required - volume, e.g. 10
+* @returns {object} 200 - {"message": "Success!"}
+* @returns {Error}  default - Unexpected error
+*/
+app.post("/setvolume", (req, res) => {
+ collection = database.collection("devices", {readPreference:'secondaryPreferred'});
+ collection.updateOne({"deviceId": "speaker"}, {$set: {volume: req.body.volume}}, (error, result) => {
+   if (error) throw error;
+   res.send({"message": "Success!"});
    });
  });
 
