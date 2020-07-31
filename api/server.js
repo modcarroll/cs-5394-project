@@ -75,41 +75,7 @@ router.get('/', function(req, res) {
    });
  });
 
- /**
-  * Set the thermostat to a specific temperature
-  * Example: `/settemp`
-  * @route POST /settemp
-  * @group devices - Operations related to devices
-  * @param {int} temperature.parameter.required - temperature, e.g. 74
-  * @returns {object} 200 - {"message": "Success!"}
-  * @returns {Error}  default - Unexpected error
-  */
- app.post("/settemp", (req, res) => {
-   collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-   collection.updateOne({"deviceId": "thermostat"}, {$set: {temperature: req.body.temperature}}, (error, result) => {
-     if (error) throw error;
-     res.send({"message": "Success!"});
-     });
-   });
-
-/**
-* Set the volume to a specific value
-* Example: `/setvolume`
-* @route POST /setvolume
-* @group devices - Operations related to devices
-* @param {integer} volume.parameter.required - volume, e.g. 10
-* @returns {object} 200 - {"message": "Success!"}
-* @returns {Error}  default - Unexpected error
-*/
-app.post("/setvolume", (req, res) => {
- collection = database.collection("devices", {readPreference:'secondaryPreferred'});
- collection.updateOne({"deviceId": "speaker"}, {$set: {volume: req.body.volume}}, (error, result) => {
-   if (error) throw error;
-   res.send({"message": "Success!"});
-   });
- });
-
- /**
+  /**
   * Turn a device on by device ID where :id is the device ID
   * Example: `/deviceon/lightbulb`
   * @route POST /deviceon/:id
