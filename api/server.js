@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 var moment = require('moment');
 const MongoClient = require("mongodb").MongoClient;
-const CONNECTION_URL = "mongodb://admin:nAJENwqPxbC@08951464-2902-477e-862b-97095ae4d133-0.brjdfmfw09op3teml03g.databases.appdomain.cloud:32142?authSource=admin&replicaSet=replset&tls=true&readPreference=secondary"; // paste your MongoDB URI here
+const CONNECTION_URL = "mongodb://somestuff"; // paste your MongoDB URI here
 const DATABASE_NAME = 'prod';
 const app = express();
 
