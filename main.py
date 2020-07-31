@@ -12,6 +12,55 @@ currentUser = ""
 response = requests.post(url + "/setvolume", json={"volume": 6})
 print(response.content)
 
+def speaker():
+    #pass in up or down action as well as user
+    #do the action
+    url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+    action = requests.post(url+"/speaker")
+    print(action.content)
+    #post to log
+    action= requests.post(url + "/logs", json={"user":"philip",
+    "device":"speaker",
+    "action":"down"
+    })
+    print(action.content)
+def lightBulb():
+    #pass in one or off action as well as user
+    #do the action
+    url =  "https://pycontrolapi.us-south.cf.appdomain.cloud"
+    action = requests.post(url+"/deviceoff/lightbulb")
+    print(action.content)
+    #post to log
+    action=requests.post(url + "/logs", json={"user":"philip",
+    "device":"lightbulb",
+    "action":"turn-off"
+    })
+    print(action.content)
+def doorlock():
+    #pass in unlock or lock action as well as user
+    #do the action
+    url ="https://pycontrolapi.us-south.cf.appdomain.cloud"
+    action = requests.post(url+"/deviceon/doorlock")
+    print(action.content)
+    #post to log
+    action=requests.post(url+"/logs",json={"user":"philip",
+    "device":"doorlock",
+    "action":"lock"
+    })
+    print(action.content)
+def thermostat():
+    #pass in up or down action as wel as user
+    #action
+    url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+    action = requests.post(url + "/up")
+    print(action.content)
+    #print to log
+    action = requests.post(url+"/logs", json = {"user":"Philip",
+    "device":"thermostat",
+    "action":"up"
+    })
+    print(action.content)
+
 # Get the current user based on who is selected in the dropdown
 def _getUser(cur):
     currentUser = cur
@@ -56,6 +105,11 @@ class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
+
+        speaker()
+        lightBulb()
+        doorlock()
+        thermostat()
 
         # Setup frames
         frame_login = tk.Frame(width="500", height="50")
@@ -242,7 +296,6 @@ class Window(Frame):
         therm_up.pack(side="left")
         therm_down.pack(side="left")
 
-        # Speaker section
         label_speaker = Label(frame_speaker, text="Speakers", width=12)
         speaker_up = tk.Button(
             text="+",
@@ -252,6 +305,7 @@ class Window(Frame):
             fg="black",
             master=frame_speaker
         )
+
         speaker_down = tk.Button(
             text="-",
             width=8,
@@ -264,11 +318,9 @@ class Window(Frame):
         speaker_up.pack(side="left")
         speaker_down.pack(side="left")
 
-        # Output section
         output = tk.Text(frame_status)
         output.pack()
-        # use this to add data to the output screen where "Test data here" is the data that you want to display
-        output.insert(tk.END, "Test data here")
+        output.insert(tk.END, "This will be some output text\nLine two\n")
 
 # Create the window
 window = tk.Tk()
