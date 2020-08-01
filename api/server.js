@@ -171,7 +171,7 @@ app.post("/setvolume", (req, res) => {
   */
  app.post("/down/:id", (req, res) => {
    collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-   collection.updateOne({"deviceId": req.params.id}, {$dec: {volume: 1}}, (error, result) => {
+   collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: -1}}, (error, result) => {
        if (error) throw error;
        res.send({"message": "Success!"});
      });
