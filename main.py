@@ -9,8 +9,8 @@ url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 allUsers = ['LOGIN']
 currentUser = ""
 
-response = requests.post(url + "/setvolume", json={"volume": 6})
-print(response.content)
+# response = requests.post(url + "/setvolume", json={"volume": 6})
+# print(response.content)
 
 def speaker(option):
     if option == "up":
@@ -23,11 +23,12 @@ def speaker(option):
     action = requests.post(url + "/" + act + "/speaker")
     print(action.content)
     #post to log
-    action= requests.post(url + "/logs", json={"user":"phily",
+    action= requests.post(url + "/logs", json={"user": currentUser,
     "device":"speaker",
     "action":act
     })
     print(action.content)
+
 def lightBulb(option):
     if option == "on":
         act = "/deviceon"
@@ -39,11 +40,12 @@ def lightBulb(option):
     action = requests.post(url + act + "/lightbulb" )
     print(action.content)
     #post to log
-    action=requests.post(url + "/logs", json={"user":"phily",
+    action=requests.post(url + "/logs", json={"user": currentUser,
     "device":"lightbulb",
     "action":option
     })
     print(action.content)
+
 def doorlock(option):
     if option == "deviceoff":
         act = "off"
@@ -55,11 +57,12 @@ def doorlock(option):
     action = requests.post(url + "/" + option + "/doorlock")
     print(action.content)
     #post to log
-    action=requests.post(url+"/logs",json={"user":"phily",
+    action=requests.post(url+"/logs",json={"user": currentUser,
     "device":"doorlock",
     "action":act
     })
     print(action.content)
+
 def thermostat(option):
 
     #pass in up or down action as wel as user
@@ -68,7 +71,7 @@ def thermostat(option):
     action = requests.post(url + "/" + option + "/thermostat")
     print(action.content)
     #print to log
-    action = requests.post(url+"/logs", json = {"user":"phily",
+    action = requests.post(url+"/logs", json = {"user": currentUser,
     "device":"thermostat",
     "action":option
     })
@@ -76,6 +79,7 @@ def thermostat(option):
 
 # Get the current user based on who is selected in the dropdown
 def _getUser(cur):
+    global currentUser
     currentUser = cur
     print(currentUser)
 
@@ -118,11 +122,6 @@ class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
-
-        # speaker()
-        # lightBulb()
-        # doorlock()
-        # thermostat()
 
         # Setup frames
         frame_login = tk.Frame(width="500", height="50")
