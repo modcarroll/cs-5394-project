@@ -12,52 +12,65 @@ currentUser = ""
 response = requests.post(url + "/setvolume", json={"volume": 6})
 print(response.content)
 
-def speaker():
+def speaker(option):
+    if option == "up":
+        act = "up"
+    else:
+        act = "down"
     #pass in up or down action as well as user
     #do the action
     url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url+"/speaker")
+    action = requests.post(url + "/" + act + "/speaker")
     print(action.content)
     #post to log
-    action= requests.post(url + "/logs", json={"user":"philip",
+    action= requests.post(url + "/logs", json={"user":"phily",
     "device":"speaker",
-    "action":"down"
+    "action":act
     })
     print(action.content)
-def lightBulb():
+def lightBulb(option):
+    if option == "on":
+        act = "/deviceon"
+    else:
+        act = "/deviceoff"
     #pass in one or off action as well as user
     #do the action
     url =  "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url+"/deviceoff/lightbulb")
+    action = requests.post(url + act + "/lightbulb" )
     print(action.content)
     #post to log
-    action=requests.post(url + "/logs", json={"user":"philip",
+    action=requests.post(url + "/logs", json={"user":"phily",
     "device":"lightbulb",
-    "action":"turn-off"
+    "action":option
     })
     print(action.content)
-def doorlock():
+def doorlock(option):
+    if option == "deviceoff":
+        act = "off"
+    else:
+        act = "on"
     #pass in unlock or lock action as well as user
     #do the action
     url ="https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url+"/deviceon/doorlock")
+    action = requests.post(url + "/" + option + "/doorlock")
     print(action.content)
     #post to log
-    action=requests.post(url+"/logs",json={"user":"philip",
+    action=requests.post(url+"/logs",json={"user":"phily",
     "device":"doorlock",
-    "action":"lock"
+    "action":act
     })
     print(action.content)
-def thermostat():
+def thermostat(option):
+
     #pass in up or down action as wel as user
     #action
     url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + "/up")
+    action = requests.post(url + "/" + option + "/thermostat")
     print(action.content)
     #print to log
-    action = requests.post(url+"/logs", json = {"user":"Philip",
+    action = requests.post(url+"/logs", json = {"user":"phily",
     "device":"thermostat",
-    "action":"up"
+    "action":option
     })
     print(action.content)
 
@@ -106,10 +119,10 @@ class Window(Frame):
         Frame.__init__(self, master)
         self.master = master
 
-        speaker()
-        lightBulb()
-        doorlock()
-        thermostat()
+        # speaker()
+        # lightBulb()
+        # doorlock()
+        # thermostat()
 
         # Setup frames
         frame_login = tk.Frame(width="500", height="50")
@@ -161,13 +174,11 @@ class Window(Frame):
         user_dropdown = tk.OptionMenu(frame_login, variable, command = _getUser, *allUsers)
         user_dropdown.pack(side="right")
 
-        # Add logo to the top of the page
         photo = PhotoImage(file="icon.gif")
         label_title = Label(frame_title, image=photo)
         label_title.photo = photo
         label_title.pack()
 
-        # Setup the navigation section
         label_tab = Label(frame_tab, text="Navigation", width=12)
         tab_control = tk.Button(
             text="Control",
@@ -177,6 +188,7 @@ class Window(Frame):
             fg="black",
             master=frame_tab
         )
+
         tab_logs = tk.Button(
             text="Logs",
             width=6,
@@ -230,7 +242,6 @@ class Window(Frame):
         sequence_3.pack(side="left")
         sequence_4.pack(side="left")
 
-        # Light section
         label_light = Label(frame_light, text="Lights", width=12)
         light_on = tk.Button(
             text="ON",
@@ -238,21 +249,23 @@ class Window(Frame):
             height=3,
             bg="white",
             fg="black",
-            master=frame_light
+            master=frame_light,
+            command = lambda:lightBulb("on")
         )
+
         light_off = tk.Button(
             text="OFF",
             width=8,
             height=3,
             bg="white",
             fg="black",
-            master=frame_light
+            master=frame_light,
+            command = lambda:lightBulb("off")
         )
         label_light.pack(side="left")
         light_on.pack(side="left")
         light_off.pack(side="left")
 
-        # Lock section
         label_lock = Label(frame_lock, text="Locks", width=12)
         lock = tk.Button(
             text="LOCK",
@@ -260,37 +273,46 @@ class Window(Frame):
             height=3,
             bg="white",
             fg="black",
-            master=frame_lock
+            master=frame_lock,
+            command = lambda:doorlock("deviceon")
         )
+
         unlock = tk.Button(
             text="UNLOCK",
             width=8,
             height=3,
             bg="white",
             fg="black",
-            master=frame_lock
+            master=frame_lock,
+            command = lambda:doorlock("deviceoff")
+
         )
         label_lock.pack(side="left")
         lock.pack(side="left")
         unlock.pack(side="left")
 
-        # Thermostat section
         label_thermostat = Label(frame_thermostat, text="Thermostat", width=12)
+
         therm_up = tk.Button(
             text="+",
             width=8,
             height=3,
             bg="white",
             fg="black",
-            master=frame_thermostat
+            master=frame_thermostat,
+            command = lambda:thermostat("up")
+
         )
+
         therm_down = tk.Button(
             text="-",
             width=8,
             height=3,
             bg="white",
             fg="black",
-            master=frame_thermostat
+            master=frame_thermostat,
+            command = lambda:thermostat("down")
+
         )
         label_thermostat.pack(side="left")
         therm_up.pack(side="left")
@@ -303,7 +325,8 @@ class Window(Frame):
             height=3,
             bg="white",
             fg="black",
-            master=frame_speaker
+            master=frame_speaker,
+            command = lambda:speaker("up")
         )
 
         speaker_down = tk.Button(
@@ -312,7 +335,9 @@ class Window(Frame):
             height=3,
             bg="white",
             fg="black",
-            master=frame_speaker
+            master=frame_speaker,
+            command = lambda:speaker("down")
+
         )
         label_speaker.pack(side="left")
         speaker_up.pack(side="left")
