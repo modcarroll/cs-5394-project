@@ -37,23 +37,6 @@ def speaker(option):
     })
     print(action.content)
 
-def lightBulb(option):
-    if option == "on":
-        act = "/deviceon"
-    else:
-        act = "/deviceoff"
-    #pass in one or off action as well as user
-    #do the action
-    url =  "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + act + "/lightbulb" )
-    print(action.content)
-    #post to log
-    action=requests.post(url + "/logs", json={"user": currentUser,
-    "device":"lightbulb",
-    "action":option
-    })
-    print(action.content)
-
 def doorlock(option):
     if option == "deviceoff":
         act = "off"
@@ -185,6 +168,8 @@ class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
+
+        v = StringVar()
 
         #make a notebook
         notebook = ttk.Notebook()
@@ -328,6 +313,12 @@ class Window(Frame):
         allButtons.append(light_on)
         allButtons.append(light_off)
 
+        status_light = Label(frame_light, textvariable=v, width=12)
+        response = requests.get(url + "/devicestatus/lightbulb")
+        lightResult = json.loads(response.content)
+        v.set(lightResult['status'])
+        status_light.pack(side="left")
+
         label_lock = Label(frame_lock, text="Locks", width=12)
         lock = tk.Button(
             text="LOCK",
@@ -424,6 +415,28 @@ class Window(Frame):
 
         for log in allLogs:
             log_Txt.insert(tk.END, log)
+
+        def lightBulb(option):
+            if option == "on":
+                act = "/deviceon"
+            else:
+                act = "/deviceoff"
+            #pass in one or off action as well as user
+            #do the action
+            url =  "https://pycontrolapi.us-south.cf.appdomain.cloud"
+            action = requests.post(url + act + "/lightbulb" )
+            print(action.content)
+            #post to log
+            action=requests.post(url + "/logs", json={"user": currentUser,
+            "device":"lightbulb",
+            "action":option
+            })
+            print(action.content)
+
+            response = requests.get(url + "/devicestatus/lightbulb")
+            bulbResult = json.loads(response.content)
+            print(bulbResult['status'])
+            v.set(bulbResult['status'])
 
 # Create the window
 window = tk.Tk()
