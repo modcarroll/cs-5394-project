@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 import requests
 import json
 
@@ -7,6 +8,7 @@ url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 # url = "http://localhost:3000"
 allUsers = ['LOGIN']
 currentUser = ""
+allLogs = []
 
 # example of how to do a post request
 # response = requests.post(url + "/setvolume", json={"volume": 6})
@@ -163,53 +165,74 @@ def _populateUsers():
     for user in users:
         allUsers.append(user['userId'])
 
+def _pupolateLogsTab():
+    log = requests.get(url + "/alllogs")
+    logs = json.loads(log.content)
+    for l in logs:
+        allLogs.append(l)
+
+
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
 
+        #make a notebook
+        notebook = ttk.Notebook()
+
+        control_frame = Frame(notebook, width = 500, height = 600)
+        log_frame = Frame(notebook,width = 500, height = 800)
+
         # Setup frames
         frame_login = tk.Frame(width="500", height="50")
         frame_title = tk.Frame(width="500", height="50")
-        frame_tab = tk.Frame(width="500", height="30")
-        frame_sequence = tk.Frame(width="500", height="50")
-        frame_light = tk.Frame(width="500", height="50")
-        frame_lock = tk.Frame(width="500", height="50")
-        frame_thermostat = tk.Frame(width="500", height="50")
-        frame_speaker = tk.Frame(width="500", height="50")
-        frame_status = tk.Frame(width="500", height="50")
+        frame_tab = tk.Frame(control_frame,width="500", height="30")
+        frame_sequence = tk.Frame(control_frame,width="500", height="50")
+        frame_light = tk.Frame(control_frame,width="500", height="50")
+        frame_lock = tk.Frame(control_frame,width="500", height="50")
+        frame_thermostat = tk.Frame(control_frame,width="500", height="50")
+        frame_speaker = tk.Frame(control_frame,width="500", height="50")
+        frame_status = tk.Frame(control_frame,width="500", height="50")
+        
         frame_login.pack(side="top", fill="x")
+ 
 
+        
         # Add separators to frames
         frame_title.pack()
         separator = Frame(height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
-        frame_tab.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
-        separator.pack(fill=X, padx=5, pady=5)
+        '''frame_tab.pack(side="top", fill="x")
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
+        separator.pack(fill=X, padx=5, pady=5)'''
 
         frame_sequence.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
         frame_light.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
         frame_lock.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
         frame_thermostat.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
         frame_speaker.pack(side="top", fill="x")
-        separator = Frame(height=2, bd=1, relief=SUNKEN)
+        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
 
         frame_status.pack(side="top")
+
+        
+        notebook.pack(pady = 10)
+        notebook.add(control_frame, text = "Control")
+        notebook.add(log_frame, text = "Logs")
 
         _populateUsers()
         # Create and populate login dropdown
@@ -223,7 +246,9 @@ class Window(Frame):
         label_title.photo = photo
         label_title.pack()
 
-        label_tab = Label(frame_tab, text="Navigation", width=12)
+        # Setup the navigation section
+        '''label_tab = Label(frame_tab, text="Navigation", width=12)
+
         tab_control = tk.Button(
             text="Control",
             width=6,
@@ -243,10 +268,10 @@ class Window(Frame):
         )
         label_tab.pack(side="left")
         tab_control.pack(side="left")
-        tab_logs.pack(side="left")
+        tab_logs.pack(side="left")'''
 
         # Sequence section
-        label_sequence = Label(frame_sequence, text="Sequences", width=12)
+        label_sequence = Label(frame_sequence, text="Sequence", width=12)
         label_sequence.pack(side="left")
         sequence_1 = tk.Button(
             text="Home",
@@ -263,8 +288,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence,
-            command = _awaySequence
+            command = _awaySequence,
+            master=frame_sequence
         )
         sequence_3 = tk.Button(
             text="Sleep",
@@ -272,8 +297,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence,
-            command = _sleepSequence
+            command = _sleepSequence,
+            master=frame_sequence
         )
         sequence_4 = tk.Button(
             text="Burglar",
@@ -281,8 +306,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence,
-            command = _burglarSequence
+            command = _burglarSequence,
+            master=frame_sequence
         )
         sequence_1.pack(side="left")
         sequence_2.pack(side="left")
@@ -393,6 +418,13 @@ class Window(Frame):
         output = tk.Text(frame_status)
         output.pack()
         output.insert(tk.END, "This will be some output text\nLine two\n")
+
+        _pupolateLogsTab()
+        log_Txt = tk.Text(log_frame, height = 500, state= NORMAL)
+        log_Txt.pack()
+
+        for log in allLogs:
+            log_Txt.insert(tk.END, log)
 
 # Create the window
 window = tk.Tk()
