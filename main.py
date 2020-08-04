@@ -173,10 +173,10 @@ class Window(Frame):
         user_dropdown = tk.OptionMenu(frame_login, variable, command = _getUser, *allUsers)
         user_dropdown.pack(side="right")
 
-        photo = PhotoImage(file="icon.gif")
-        label_title = Label(frame_title, image=photo)
-        label_title.photo = photo
-        label_title.pack()
+        # photo = PhotoImage(file="icon.gif")
+        # label_title = Label(frame_title, image=photo)
+        # label_title.photo = photo
+        # label_title.pack()
 
         label_tab = Label(frame_tab, text="Navigation", width=12)
         tab_control = tk.Button(
@@ -261,9 +261,15 @@ class Window(Frame):
             master=frame_light,
             command = lambda:lightBulb("off")
         )
+
+        response = requests.get(url + "/devicestatus/lightbulb")
+        lightResult = json.loads(response.content)
+        status_light = Label(frame_light, text=lightResult['status'], width=12)
+
         label_light.pack(side="left")
         light_on.pack(side="left")
         light_off.pack(side="left")
+        status_light.pack(side="left")
 
         label_lock = Label(frame_lock, text="Locks", width=12)
         lock = tk.Button(
@@ -286,9 +292,15 @@ class Window(Frame):
             command = lambda:doorlock("deviceoff")
 
         )
+
+        response = requests.get(url + "/devicestatus/doorlock")
+        lockResult = json.loads(response.content)
+        status_lock = Label(frame_lock, text=lockResult['status'], width=12)
+
         label_lock.pack(side="left")
         lock.pack(side="left")
         unlock.pack(side="left")
+        status_lock.pack(side="left")
 
         label_thermostat = Label(frame_thermostat, text="Thermostat", width=12)
 
@@ -313,9 +325,15 @@ class Window(Frame):
             command = lambda:thermostat("down")
 
         )
+
+        response = requests.get(url + "/devicestatus/thermostat")
+        thermostatResult = json.loads(response.content)
+        status_thermostat = Label(frame_thermostat, text=thermostatResult['temperature'], width=12)
+
         label_thermostat.pack(side="left")
         therm_up.pack(side="left")
         therm_down.pack(side="left")
+        status_thermostat.pack(side="left")
 
         label_speaker = Label(frame_speaker, text="Speakers", width=12)
         speaker_up = tk.Button(
@@ -338,9 +356,15 @@ class Window(Frame):
             command = lambda:speaker("down")
 
         )
+
+        response = requests.get(url + "/devicestatus/speaker")
+        speakerResult = json.loads(response.content)
+        status_speaker = Label(frame_speaker, text=speakerResult['volume'], width=12)
+
         label_speaker.pack(side="left")
         speaker_up.pack(side="left")
         speaker_down.pack(side="left")
+        status_speaker.pack(side="left")
 
         output = tk.Text(frame_status)
         output.pack()
