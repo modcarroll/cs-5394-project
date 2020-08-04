@@ -154,11 +154,21 @@ app.post("/setvolume", (req, res) => {
     */
    app.post("/up/:id", (req, res) => {
      collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-     collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: 1}}, (error, result) => {
-         if (error) throw error;
-         res.send({"message": "Success!"});
-       });
-     });
+
+     if(req.params.id === 'thermostat') {
+       collection.updateOne({"deviceId": req.params.id}, {$inc: {temperature: 1}}, (error, result) => {
+           if (error) throw error;
+           res.send({"message": "Success!"});
+         });
+     } else if (req.params.id === 'speaker') {
+       collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: 1}}, (error, result) => {
+           if (error) throw error;
+           res.send({"message": "Success!"});
+         });
+     } else {
+       throw error;
+     }
+   });
 
  /**
   * Turn a device volume/temperature down by device ID where :id is the device ID
@@ -171,10 +181,19 @@ app.post("/setvolume", (req, res) => {
   */
  app.post("/down/:id", (req, res) => {
    collection = database.collection("devices", {readPreference:'secondaryPreferred'});
-   collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: -1}}, (error, result) => {
-       if (error) throw error;
-       res.send({"message": "Success!"});
-     });
+   if(req.params.id === 'thermostat') {
+     collection.updateOne({"deviceId": req.params.id}, {$inc: {temperature: -1}}, (error, result) => {
+         if (error) throw error;
+         res.send({"message": "Success!"});
+       });
+   } else if (req.params.id === 'speaker') {
+     collection.updateOne({"deviceId": req.params.id}, {$inc: {volume: -1}}, (error, result) => {
+         if (error) throw error;
+         res.send({"message": "Success!"});
+       });
+   } else {
+     throw error;
+   }
    });
 
    /**
