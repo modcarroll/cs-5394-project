@@ -3,14 +3,19 @@ from tkinter import *
 import requests
 import json
 
-# example of how to do a post request
 url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 # url = "http://localhost:3000"
 allUsers = ['LOGIN']
 currentUser = ""
 
+# example of how to do a post request
 # response = requests.post(url + "/setvolume", json={"volume": 6})
 # print(response.content)
+
+# example of how to do a get request
+# response = requests.get(url + "/devicestatus/speaker")
+# speakerResult = json.loads(response.content)
+# print(speakerResult['volume'])
 
 def speaker(option):
     if option == "up":
