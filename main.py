@@ -9,8 +9,10 @@ url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 allUsers = ['LOGIN']
 currentUser = ""
 
-# response = requests.post(url + "/setvolume", json={"volume": 6})
-# print(response.content)
+# example of how to do a get request
+response = requests.get(url + "/devicestatus/speaker")
+speakerResult = json.loads(response.content)
+print(speakerResult['volume'])
 
 def speaker(option):
     if option == "up":
