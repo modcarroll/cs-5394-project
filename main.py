@@ -9,6 +9,7 @@ url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 # url = "http://localhost:3000"
 allUsers = ['LOGIN']
 currentUser = ""
+allLogs = []
 
 response = requests.post(url + "/setvolume", json={"volume": 6})
 print(response.content)
@@ -102,6 +103,13 @@ def _populateUsers():
     for user in users:
         allUsers.append(user['userId'])
 
+def _pupolateLogsTab():
+    log = requests.get(url + "/alllogs")
+    logs = json.loads(log.content)
+    for l in logs:
+        allLogs.append(l)
+
+
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -116,7 +124,7 @@ class Window(Frame):
         notebook = ttk.Notebook()
 
         control_frame = Frame(notebook, width = 500, height = 600)
-        log_frame = Frame(notebook,width = 500, height = 600)
+        log_frame = Frame(notebook,width = 500, height = 800)
 
         # Setup frames
         frame_login = tk.Frame(width="500", height="50")
@@ -127,7 +135,7 @@ class Window(Frame):
         frame_lock = tk.Frame(control_frame,width="500", height="50")
         frame_thermostat = tk.Frame(control_frame,width="500", height="50")
         frame_speaker = tk.Frame(control_frame,width="500", height="50")
-        frame_status = tk.Frame(log_frame,width="500", height="50")
+        frame_status = tk.Frame(control_frame,width="500", height="50")
         
         frame_login.pack(side="top", fill="x")
  
@@ -222,6 +230,7 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
+            command = _awaySequence,
             master=frame_sequence
         )
         sequence_3 = tk.Button(
@@ -230,6 +239,7 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
+            command = _sleepSequence,
             master=frame_sequence
         )
         sequence_4 = tk.Button(
@@ -238,6 +248,7 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
+            command = _burglarSequence,
             master=frame_sequence
         )
         sequence_1.pack(side="left")
@@ -336,6 +347,14 @@ class Window(Frame):
         output = tk.Text(frame_status)
         output.pack()
         output.insert(tk.END, "This will be some output text\nLine two\n")
+
+        _pupolateLogsTab()
+        log_Txt = tk.Text(log_frame, height = 500, state= NORMAL)
+        log_Txt.pack()
+
+        for log in allLogs:
+            log_Txt.insert(tk.END, log)
+        
 
 # Create the window
 window = tk.Tk()
