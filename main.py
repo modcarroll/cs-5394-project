@@ -82,6 +82,15 @@ def _getUser(cur):
     global currentUser
     currentUser = cur
     print(currentUser)
+def postToLog(option, optionTwo = ""):
+    if option == "Thermostat":
+        act = "Adjust"
+    else:
+        act = optionTwo
+    requests.post(url + "/logs", json={"user": currentUser,
+    "device":option,
+    "action":act
+    })
 
 def _homeSequence():
     print("Home sweet home")
@@ -89,6 +98,13 @@ def _homeSequence():
     # Turn lights on
     # Unlock the doors
     # Turn the speakers on
+    requests.post(url + "/settemp", json={"temperature": 72})
+    postToLog("Thermostat") # just posts to log
+    requests.post(url + "/deviceon/speaker")
+    postToLog("Speaker", "On")# just posts to log
+    lightBulb("on")
+    doorlock("deviceoff")
+
 
 def _awaySequence():
     print("Bye Felicia")
@@ -96,6 +112,14 @@ def _awaySequence():
     # Turn the lights off
     # Lock the doors
     # Turn the speakers off
+    requests.post(url + "/settemp", json={"temperature": 78})
+    postToLog("Thermostat") # just posts to log
+
+    requests.post(url + "/deviceoff/speaker")
+    postToLog("Speaker", "Off")# just posts to log
+
+    lightBulb("off")
+    doorlock("deviceon")
 
 def _sleepSequence():
     print("Snoozle time zzzzzzz")
@@ -103,6 +127,14 @@ def _sleepSequence():
     # Turn the lights off
     # Lock the doors
     # Turn the speakers off
+    requests.post(url + "/settemp", json={"temperature": 68})
+    postToLog("Thermostat") # just posts to log
+
+    requests.post(url + "/deviceoff/speaker")
+    postToLog("Speaker", "Off")# just posts to log
+
+    lightBulb("off")
+    doorlock("deviceon")
 
 def _burglarSequence():
     print("Intruder alert!")
@@ -111,6 +143,14 @@ def _burglarSequence():
     # Lock the doors
     # Turn the speakers on
     # Set the speaker volume to 100
+    requests.post(url + "/settemp", json={"temperature": 99})
+    postToLog("Thermostat") # just posts to log
+
+    requests.post(url + "/deviceon/speaker")
+    postToLog("Speaker", "On")# just posts to log
+
+    lightBulb("on")
+    doorlock("deviceon")
 
 def _populateUsers():
     userResponse = requests.get(url + "/allusers")
@@ -218,7 +258,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence
+            master=frame_sequence,
+            command = _awaySequence
         )
         sequence_3 = tk.Button(
             text="Sleep",
@@ -226,7 +267,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence
+            master=frame_sequence,
+            command = _sleepSequence
         )
         sequence_4 = tk.Button(
             text="Burglar",
@@ -234,7 +276,8 @@ class Window(Frame):
             height=2,
             bg="white",
             fg="black",
-            master=frame_sequence
+            master=frame_sequence,
+            command = _burglarSequence
         )
         sequence_1.pack(side="left")
         sequence_2.pack(side="left")
