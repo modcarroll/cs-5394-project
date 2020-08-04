@@ -9,6 +9,7 @@ url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 allUsers = ['LOGIN']
 currentUser = ""
 allLogs = []
+allButtons = []
 
 # example of how to do a post request
 # response = requests.post(url + "/setvolume", json={"volume": 6})
@@ -89,6 +90,15 @@ def _getUser(cur):
     global currentUser
     currentUser = cur
     print(currentUser)
+
+    # Disable buttons if no user is selected
+    if currentUser == 'LOGIN':
+        for btn in allButtons:
+            btn.configure(state = 'disabled')
+    else:
+        for btn in allButtons:
+            btn.configure(state = 'normal')
+
 def postToLog(option, optionTwo = ""):
     if option == "Thermostat":
         act = "Adjust"
@@ -171,7 +181,6 @@ def _pupolateLogsTab():
     for l in logs:
         allLogs.append(l)
 
-
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -193,19 +202,13 @@ class Window(Frame):
         frame_thermostat = tk.Frame(control_frame,width="500", height="50")
         frame_speaker = tk.Frame(control_frame,width="500", height="50")
         frame_status = tk.Frame(control_frame,width="500", height="50")
-        
-        frame_login.pack(side="top", fill="x")
- 
 
-        
+        frame_login.pack(side="top", fill="x")
+
         # Add separators to frames
         frame_title.pack()
         separator = Frame(height=2, bd=1, relief=SUNKEN)
         separator.pack(fill=X, padx=5, pady=5)
-
-        '''frame_tab.pack(side="top", fill="x")
-        separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
-        separator.pack(fill=X, padx=5, pady=5)'''
 
         frame_sequence.pack(side="top", fill="x")
         separator = Frame(control_frame,height=2, bd=1, relief=SUNKEN)
@@ -229,7 +232,6 @@ class Window(Frame):
 
         frame_status.pack(side="top")
 
-        
         notebook.pack(pady = 10)
         notebook.add(control_frame, text = "Control")
         notebook.add(log_frame, text = "Logs")
@@ -245,30 +247,6 @@ class Window(Frame):
         label_title = Label(frame_title, image=photo)
         label_title.photo = photo
         label_title.pack()
-
-        # Setup the navigation section
-        '''label_tab = Label(frame_tab, text="Navigation", width=12)
-
-        tab_control = tk.Button(
-            text="Control",
-            width=6,
-            height=2,
-            bg="white",
-            fg="black",
-            master=frame_tab
-        )
-
-        tab_logs = tk.Button(
-            text="Logs",
-            width=6,
-            height=2,
-            bg="white",
-            fg="black",
-            master=frame_tab
-        )
-        label_tab.pack(side="left")
-        tab_control.pack(side="left")
-        tab_logs.pack(side="left")'''
 
         # Sequence section
         label_sequence = Label(frame_sequence, text="Sequence", width=12)
@@ -310,9 +288,17 @@ class Window(Frame):
             master=frame_sequence
         )
         sequence_1.pack(side="left")
+        sequence_1.configure(state = 'disabled')
         sequence_2.pack(side="left")
+        sequence_2.configure(state = 'disabled')
         sequence_3.pack(side="left")
+        sequence_3.configure(state = 'disabled')
         sequence_4.pack(side="left")
+        sequence_4.configure(state = 'disabled')
+        allButtons.append(sequence_1)
+        allButtons.append(sequence_2)
+        allButtons.append(sequence_3)
+        allButtons.append(sequence_4)
 
         label_light = Label(frame_light, text="Lights", width=12)
         light_on = tk.Button(
@@ -336,7 +322,11 @@ class Window(Frame):
         )
         label_light.pack(side="left")
         light_on.pack(side="left")
+        light_on.configure(state = 'disabled')
         light_off.pack(side="left")
+        light_off.configure(state = 'disabled')
+        allButtons.append(light_on)
+        allButtons.append(light_off)
 
         label_lock = Label(frame_lock, text="Locks", width=12)
         lock = tk.Button(
@@ -348,7 +338,6 @@ class Window(Frame):
             master=frame_lock,
             command = lambda:doorlock("deviceon")
         )
-
         unlock = tk.Button(
             text="UNLOCK",
             width=8,
@@ -361,7 +350,11 @@ class Window(Frame):
         )
         label_lock.pack(side="left")
         lock.pack(side="left")
+        lock.configure(state = 'disabled')
         unlock.pack(side="left")
+        unlock.configure(state = 'disabled')
+        allButtons.append(lock)
+        allButtons.append(unlock)
 
         label_thermostat = Label(frame_thermostat, text="Thermostat", width=12)
 
@@ -375,7 +368,6 @@ class Window(Frame):
             command = lambda:thermostat("up")
 
         )
-
         therm_down = tk.Button(
             text="-",
             width=8,
@@ -388,7 +380,11 @@ class Window(Frame):
         )
         label_thermostat.pack(side="left")
         therm_up.pack(side="left")
+        therm_up.configure(state = 'disabled')
         therm_down.pack(side="left")
+        therm_down.configure(state = 'disabled')
+        allButtons.append(therm_up)
+        allButtons.append(therm_down)
 
         label_speaker = Label(frame_speaker, text="Speakers", width=12)
         speaker_up = tk.Button(
@@ -400,7 +396,6 @@ class Window(Frame):
             master=frame_speaker,
             command = lambda:speaker("up")
         )
-
         speaker_down = tk.Button(
             text="-",
             width=8,
@@ -413,7 +408,11 @@ class Window(Frame):
         )
         label_speaker.pack(side="left")
         speaker_up.pack(side="left")
+        speaker_up.configure(state = 'disabled')
         speaker_down.pack(side="left")
+        speaker_down.configure(state = 'disabled')
+        allButtons.append(speaker_up)
+        allButtons.append(speaker_down)
 
         output = tk.Text(frame_status)
         output.pack()
