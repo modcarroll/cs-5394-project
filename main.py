@@ -20,71 +20,6 @@ allButtons = []
 # speakerResult = json.loads(response.content)
 # print(speakerResult['volume'])
 
-def speaker(option):
-    if option == "up":
-        act = "up"
-    else:
-        act = "down"
-    #pass in up or down action as well as user
-    #do the action
-    url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + "/" + act + "/speaker")
-    print(action.content)
-    #post to log
-    action= requests.post(url + "/logs", json={"user": currentUser,
-    "device":"speaker",
-    "action":act
-    })
-    print(action.content)
-
-def lightBulb(option):
-    if option == "on":
-        act = "/deviceon"
-    else:
-        act = "/deviceoff"
-    #pass in one or off action as well as user
-    #do the action
-    url =  "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + act + "/lightbulb" )
-    print(action.content)
-    #post to log
-    action=requests.post(url + "/logs", json={"user": currentUser,
-    "device":"lightbulb",
-    "action":option
-    })
-    print(action.content)
-
-def doorlock(option):
-    if option == "deviceoff":
-        act = "off"
-    else:
-        act = "on"
-    #pass in unlock or lock action as well as user
-    #do the action
-    url ="https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + "/" + option + "/doorlock")
-    print(action.content)
-    #post to log
-    action=requests.post(url+"/logs",json={"user": currentUser,
-    "device":"doorlock",
-    "action":act
-    })
-    print(action.content)
-
-def thermostat(option):
-
-    #pass in up or down action as wel as user
-    #action
-    url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
-    action = requests.post(url + "/" + option + "/thermostat")
-    print(action.content)
-    #print to log
-    action = requests.post(url+"/logs", json = {"user": currentUser,
-    "device":"thermostat",
-    "action":option
-    })
-    print(action.content)
-
 # Get the current user based on who is selected in the dropdown
 def _getUser(cur):
     global currentUser
@@ -116,12 +51,11 @@ def _homeSequence():
     # Unlock the doors
     # Turn the speakers on
     requests.post(url + "/settemp", json={"temperature": 72})
-    postToLog("Thermostat") # just posts to log
+    postToLog("Thermostat")  # just posts to log
     requests.post(url + "/deviceon/speaker")
-    postToLog("Speaker", "On")# just posts to log
-    lightBulb("on")
-    doorlock("deviceoff")
-
+    postToLog("Speaker", "On")  # just posts to log
+    # lightBulb("on")
+    # doorlock("deviceoff")
 
 def _awaySequence():
     print("Bye Felicia")
@@ -130,13 +64,13 @@ def _awaySequence():
     # Lock the doors
     # Turn the speakers off
     requests.post(url + "/settemp", json={"temperature": 78})
-    postToLog("Thermostat") # just posts to log
+    postToLog("Thermostat")  # just posts to log
 
     requests.post(url + "/deviceoff/speaker")
-    postToLog("Speaker", "Off")# just posts to log
+    postToLog("Speaker", "Off")  # just posts to log
 
-    lightBulb("off")
-    doorlock("deviceon")
+    # lightBulb("off")
+    # doorlock("deviceon")
 
 def _sleepSequence():
     print("Snoozle time zzzzzzz")
@@ -145,13 +79,13 @@ def _sleepSequence():
     # Lock the doors
     # Turn the speakers off
     requests.post(url + "/settemp", json={"temperature": 68})
-    postToLog("Thermostat") # just posts to log
+    postToLog("Thermostat")  # just posts to log
 
     requests.post(url + "/deviceoff/speaker")
-    postToLog("Speaker", "Off")# just posts to log
+    postToLog("Speaker", "Off")  # just posts to log
 
-    lightBulb("off")
-    doorlock("deviceon")
+    # lightBulb("off")
+    # doorlock("deviceon")
 
 def _burglarSequence():
     print("Intruder alert!")
@@ -161,13 +95,13 @@ def _burglarSequence():
     # Turn the speakers on
     # Set the speaker volume to 100
     requests.post(url + "/settemp", json={"temperature": 99})
-    postToLog("Thermostat") # just posts to log
+    postToLog("Thermostat")  # just posts to log
 
     requests.post(url + "/deviceon/speaker")
-    postToLog("Speaker", "On")# just posts to log
+    postToLog("Speaker", "On")  # just posts to log
 
-    lightBulb("on")
-    doorlock("deviceon")
+     # lightBulb("on")
+     # doorlock("deviceon")
 
 def _populateUsers():
     userResponse = requests.get(url + "/allusers")
@@ -181,10 +115,16 @@ def _pupolateLogsTab():
     for l in logs:
         allLogs.append(l)
 
+
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
+
+        v = StringVar()
+        w = StringVar()
+        x = StringVar()
+        y = StringVar()
 
         #make a notebook
         notebook = ttk.Notebook()
@@ -332,6 +272,12 @@ class Window(Frame):
         allButtons.append(light_on)
         allButtons.append(light_off)
 
+        status_light = Label(frame_light, textvariable=v, width=12)
+        response = requests.get(url + "/devicestatus/lightbulb")
+        lightResult = json.loads(response.content)
+        v.set(lightResult['status'])
+        status_light.pack(side="left")
+
         label_lock = Label(frame_lock, text="Locks", width=12)
         lock = tk.Button(
             text="LOCK",
@@ -359,6 +305,12 @@ class Window(Frame):
         unlock.configure(state = 'disabled')
         allButtons.append(lock)
         allButtons.append(unlock)
+
+        status_doorLock = Label(frame_lock, textvariable=w, width=12)
+        response = requests.get(url + "/devicestatus/doorlock")
+        lockResult = json.loads(response.content)
+        w.set(lockResult['status'])
+        status_doorLock.pack(side="left")
 
         label_thermostat = Label(frame_thermostat, text="Thermostat", width=12)
 
@@ -390,6 +342,12 @@ class Window(Frame):
         allButtons.append(therm_up)
         allButtons.append(therm_down)
 
+        status_thermostat = Label(frame_thermostat, textvariable=x, width=12)
+        response = requests.get(url + "/devicestatus/thermostat")
+        tempResult = json.loads(response.content)
+        x.set(tempResult['temperature'])
+        status_thermostat.pack(side="left")
+
         label_speaker = Label(frame_speaker, text="Speakers", width=12)
         speaker_up = tk.Button(
             text="+",
@@ -418,6 +376,12 @@ class Window(Frame):
         allButtons.append(speaker_up)
         allButtons.append(speaker_down)
 
+        status_speaker = Label(frame_speaker, textvariable=y, width=12)
+        response = requests.get(url + "/devicestatus/speaker")
+        speakResult = json.loads(response.content)
+        y.set(speakResult['volume'])
+        status_speaker.pack(side="left")
+
         output = tk.Text(frame_status)
         output.pack()
         output.insert(tk.END, "This will be some output text\nLine two\n")
@@ -428,6 +392,91 @@ class Window(Frame):
 
         for log in allLogs:
             log_Txt.insert(tk.END, log)
+
+        def lightBulb(option):
+            if option == "on":
+                act = "/deviceon"
+            else:
+                act = "/deviceoff"
+            # pass in one or off action as well as user
+            # do the action
+            url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+            action = requests.post(url + act + "/lightbulb")
+            print(action.content)
+            # post to log
+            action = requests.post(url + "/logs", json={"user": currentUser,
+            "device": "lightbulb",
+            "action": option
+            })
+            print(action.content)
+
+            response = requests.get(url + "/devicestatus/lightbulb")
+            bulbResult = json.loads(response.content)
+            print(bulbResult['status'])
+            v.set(bulbResult['status'])
+
+        def speaker(option):
+            if option == "up":
+                act = "up"
+            else:
+                act = "down"
+            # pass in up or down action as well as user
+            # do the action
+            url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+            action = requests.post(url + "/" + act + "/speaker")
+            print(action.content)
+            # post to log
+            action = requests.post(url + "/logs", json={"user": currentUser,
+            "device": "speaker",
+            "action": act
+            })
+            print(action.content)
+
+            response = requests.get(url + "/devicestatus/speaker")
+            sResult = json.loads(response.content)
+            print(sResult['volume'])
+            y.set(sResult['volume'])
+
+        def doorlock(option):
+            if option == "deviceoff":
+                act = "off"
+            else:
+                act = "on"
+            # pass in unlock or lock action as well as user
+            # do the action
+            url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+            action = requests.post(url + "/" + option + "/doorlock")
+            print(action.content)
+            # post to log
+            action = requests.post(url + "/logs", json={"user": currentUser,
+            "device": "doorlock",
+            "action": act
+            })
+            print(action.content)
+
+            response = requests.get(url + "/devicestatus/doorlock")
+            doorResult = json.loads(response.content)
+            print(doorResult['status'])
+            w.set(doorResult['status'])
+
+        def thermostat(option):
+
+            # pass in up or down action as wel as user
+            # action
+            url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
+            action = requests.post(url + "/" + option + "/thermostat")
+            print(action.content)
+            # print to log
+            action = requests.post(url + "/logs", json={"user": currentUser,
+            "device": "thermostat",
+            "action": option
+            })
+            print(action.content)
+
+            response = requests.get(url + "/devicestatus/thermostat")
+            tempResult = json.loads(response.content)
+            print(tempResult['temperature'])
+            x.set(tempResult['temperature'])
 
 # Create the window
 window = tk.Tk()
