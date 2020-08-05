@@ -183,10 +183,14 @@ class Window(Frame):
         user_dropdown = tk.OptionMenu(frame_login, variable, command = _getUser, *allUsers)
         user_dropdown.pack(side="right")
 
-        # photo = PhotoImage(file="icon.gif")
-        # label_title = Label(frame_title, image=photo)
-        # label_title.photo = photo
-        # label_title.pack()
+        label_warning = Label(frame_login, text="You must login using the dropdown before issuing commands -->", width=70)
+        label_warning.config(font=("Courier", 14), fg="red")
+        label_warning.pack(side="left")
+
+        photo = PhotoImage(file="icon.gif")
+        label_title = Label(frame_title, image=photo)
+        label_title.photo = photo
+        label_title.pack()
 
         # Sequence section
         label_sequence = Label(frame_sequence, text="Sequence", width=12)
