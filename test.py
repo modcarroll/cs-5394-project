@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 import requests
 import json
 import main
@@ -9,6 +9,8 @@ allLogs = []
 url = "https://pycontrolapi.us-south.cf.appdomain.cloud"
 
 class TestFunctions(unittest.TestCase):
+
+	mock = Mock()
 
 	@patch('main._populateUsers')
 	def test_populateUsers(self, mock_populateUsers):
