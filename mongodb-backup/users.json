@@ -1,0 +1,5 @@
+{"_id":{"$oid":"5f20a04279a062de0fa31d8b"},"userId":"philip","email":"philip@txstate.edu"}
+{"_id":{"$oid":"5f20a04979a062de0fa31d8c"},"userId":"anisa","email":"anisa@txstate.edu"}
+{"_id":{"$oid":"5f20a05079a062de0fa31d8d"},"userId":"carla","email":"carla@txstate.edu"}
+{"_id":{"$oid":"5f20a05679a062de0fa31d8e"},"userId":"stephen","email":"stephen@txstate.edu"}
+{"_id":{"$oid":"5f20a05c79a062de0fa31d8f"},"userId":"morgan","email":"morgan@txstate.edu"}

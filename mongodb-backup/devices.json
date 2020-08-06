@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5f2071be795110c79f407e73"},"deviceId":"lightbulb","status":"on"}
+{"_id":{"$oid":"5f2071cc795110c79f407e74"},"deviceId":"doorlock","status":"off"}
+{"_id":{"$oid":"5f2071d3795110c79f407e75"},"deviceId":"thermostat","status":"on","temperature":72}
+{"_id":{"$oid":"5f2071da795110c79f407e76"},"deviceId":"speaker","volume":10,"status":"on"}
