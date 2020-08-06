@@ -45,7 +45,6 @@ def _pupolateLogsTab():
     log = requests.get(url + "/alllogs")
     logs = json.loads(log.content)
     for l in logs:
-        print(l)
         logConstruct = {"user": l['user'] if l['user'] else "", "device": l['device'] if l['device'] else "", "action": l['action'] if l['action'] else "", "timestamp": l['timestamp'] if l['timestamp'] else ""}
         allLogs.append(logConstruct)
 
@@ -395,7 +394,7 @@ class Window(Frame):
             # post to log
             postToLog("lightbulb", option)
 
-            output.insert(tk.END, datetime.today().strftime('%Y-%m-%d-%H:%M:%S') + " " + actResult['message'] + "\n")
+            output.insert('1.0', datetime.today().strftime('%Y-%m-%d-%H:%M:%S') + " " + actResult['message'] + "\n")
 
             response = requests.get(url + "/devicestatus/lightbulb")
             bulbResult = json.loads(response.content)
