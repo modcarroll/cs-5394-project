@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/Users/stephengross/Desktop/cs-5394-project/main.py</OriginalElement>
+  <nodes>
+    <node x="395.0" y="320.0">tkinter.Widget</node>
+    <node x="628.0" y="160.0">tkinter.Pack</node>
+    <node x="328.0" y="160.0">tkinter.Grid</node>
+    <node x="407.0" y="480.0">main.Window</node>
+    <node x="0.0" y="80.0">typing.Iterator</node>
+    <node x="156.08333333333337" y="160.0">tkinter.Misc</node>
+    <node x="170.0" y="80.0">typing.Iterable</node>
+    <node x="399.0" y="400.0">tkinter.Frame</node>
+    <node x="474.0" y="160.0">tkinter.Place</node>
+    <node x="415.6291666666666" y="0.0">typing.Hashable</node>
+    <node x="132.58333333333337" y="240.0">tkinter.BaseWidget</node>
+    <node x="451.12916666666666" y="80.0">object</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="tkinter.Misc" target="object">
+      <point x="42.0" y="-15.0" />
+      <point x="261.08333333333337" y="130.0" />
+      <point x="461.00416666666666" y="130.0" />
+      <point x="-29.625" y="15.0" />
+    </edge>
+    <edge source="main.Window" target="tkinter.Frame">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Grid" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="391.0" y="140.0" />
+      <point x="480.75416666666666" y="140.0" />
+      <point x="-9.875" y="15.0" />
+    </edge>
+    <edge source="tkinter.Widget" target="tkinter.Grid">
+      <point x="-17.75" y="-15.0" />
+      <point x="448.25" y="290.0" />
+      <point x="391.0" y="290.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Widget" target="tkinter.BaseWidget">
+      <point x="-53.25" y="-15.0" />
+      <point x="412.75" y="300.0" />
+      <point x="219.08333333333337" y="300.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Pack" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="691.0" y="130.0" />
+      <point x="520.2541666666666" y="130.0" />
+      <point x="29.624999999999943" y="15.0" />
+    </edge>
+    <edge source="tkinter.BaseWidget" target="tkinter.Misc">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Place" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="541.0" y="140.0" />
+      <point x="500.50416666666666" y="140.0" />
+      <point x="9.875" y="15.0" />
+    </edge>
+    <edge source="object" target="typing.Hashable">
+      <point x="-5.6843418860808015E-14" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Misc" target="typing.Iterator">
+      <point x="-42.0" y="-15.0" />
+      <point x="177.08333333333337" y="140.0" />
+      <point x="75.0" y="140.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Widget" target="tkinter.Pack">
+      <point x="53.25" y="-15.0" />
+      <point x="519.25" y="300.0" />
+      <point x="691.0" y="300.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Widget" target="tkinter.Place">
+      <point x="17.75" y="-15.0" />
+      <point x="483.75" y="290.0" />
+      <point x="541.0" y="290.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Frame" target="tkinter.Widget">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="tkinter.Misc" target="typing.Iterable">
+      <point x="0.0" y="-15.0" />
+      <point x="219.08333333333337" y="140.0" />
+      <point x="245.0" y="140.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="377.0" y="255.0" />
+  <SelectedNodes>
+    <node>typing.Hashable</node>
+  </SelectedNodes>
+  <Categories />
+</Diagram>
+
