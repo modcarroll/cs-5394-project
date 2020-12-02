@@ -1,6 +1,6 @@
 ## CS 5394 Project
 
-`python3 main.py` to run.
+Download the repository and then enter `python3 main.py` in the terminal to run.
 
 ## API - [https://pycontrolapi.us-south.cf.appdomain.cloud/]( https://pycontrolapi.us-south.cf.appdomain.cloud/)
 
