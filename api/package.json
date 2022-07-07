@@ -40,7 +40,7 @@
     "cfenv": "^1.2.3",
     "express": "^4.17.1",
     "ibm-cloud-env": "^0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mongodb": "^3.5.9",
     "swagger-ui-express": "^4.1.4"
   },
