@@ -50,7 +50,7 @@
     "eslint-config-strongloop": "^2.1.0",
     "express-swagger-generator": "^1.1.17",
     "husky": "^4.2.5",
-    "mocha": "^8.0.1",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.4",
     "nyc": "^15.1.0",
     "sinon": "^9.0.2",
